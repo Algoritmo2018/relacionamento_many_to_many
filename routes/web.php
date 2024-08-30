@@ -32,11 +32,20 @@ $permission = Permission::find(1);
 $user->permissions()->detach([1,3]);
 $user->refresh();
 
-dd($user->permissions);
+// dd($user->permissions);
 });
 
 Route::get('many-to-many-pivot', function(){
-
+$user = User::with('permissions')->find(1);
+// $user->permissions()->attach([
+//     1 => ['active' => false],
+//     3 => ['active' => false]
+// ]);
+echo "<b>{$user->name}</b><br>";
+foreach ($user->permissions as $permission) {
+    echo "{$permission->name} - {$permission->pivot->active} <br>";
+}
+// dd($user->permissions);
 });
 Route::get('/', function () {
     return view('welcome');
